@@ -1,84 +1,124 @@
-let shadow=document.querySelector('.shadow');
-let check_picture=document.querySelector('.check_picture');
-let right=document.querySelector('.fa-chevron-right');
-let left=document.querySelector('.fa-chevron-left');
-let ticlose=document.querySelector('.close');
-let chong_chay=document.querySelector('.chong_chay');
-function check(){
-    shadow.classList.toggle('none');
-    ticlose.classList.toggle('none');
-    check_picture.classList.toggle('none');
+let select=document.querySelector.bind(document);
+let canvas=select('.main_canvas');
+let context=canvas.getContext('2d');
+let h1=select('h1');
+let pointer={
+	x:50,
+	y:70
+}
+canvas.width=window.innerWidth;
+canvas.height=window.innerWidth;
+window.onresize=function(){
+	console.log(window.innerWidth)
+canvas.width=window.innerWidth;
+canvas.height=window.innerWidth;
 
 }
-function change_arr_to_string_number(arr){
-    arr=[...arr]
-
-    return arr.join().match(/[0-9]+$/).join('');
+canvas.onmousemove=(e)=>{
+	pointer.x=e.offsetX;
+	pointer.y=e.offsetY;
+	for(let i=0;i<1;i++){
+		arr.push(new an);
+	}
 }
-function check_next(i){
-    let check1='add';
-let next_id=change_arr_to_string_number(i.classList);
-if(next_id!=1){
-    check1='remove';
+// function draw
+
+class an{
+	constructor(){
+		//init
+  this.x=pointer.x;
+  this.y=pointer.y;
+  this.range_color=1;
+this.color=``;
+
+  this.change=Math.random()*3 - 1.5;
+  this.change_2=Math.random()*3 - 1.5;
+  this.size=Math.random()*(20 - 5 + 1) + 5;
+
+	}
+   update(){
+this.range_color+=3;
+if(this.size>=0.3){
+	this.size-=0.1;
 }
-left.classList[check1]('notopen');
+   	if(this.x>=canvas.width||this.x<=0){
+   		this.change= -(this.change);
+   	
+   	}
 
-check1='add';
+   	
+   	this.x+=this.change;
 
-if(next_id!=8){
-    check1='remove';
+   	
+	if(this.y>=canvas.height||this.y<=0){
+		this.change_2= -(this.change_2);
+   	}
+
+  this.y+=this.change_2;
+
+   	
+   }
+	draw(){
+this.color=`hsl(${this.range_color},100%,70%)`;
+context.beginPath();
+context.fillStyle=this.color;
+context.lineWidth=this.size/8;
+context.arc(this.x,this.y,this.size,0,2*Math.PI);
+context.fill();
+
+	}
+}
+let arr=[];
+
+function load_change(){
+for(let i in arr){
+	arr[i].update();
+arr[i].draw();
+
+
+
+for(let z=parseInt(i)+1;z<arr.length-1;z++){
+		let cgvX= arr[i].x -arr[z].x;
+	let cgvY=arr[i].y-arr[z].y;
+	let distance=Math.sqrt(cgvX*cgvX+cgvY*cgvY);
+if(distance<100){
+	context.beginPath();
+	context.moveTo(arr[z].x,arr[z].y);
+	context.lineTo(arr[i].x,arr[i].y);
+	context.strokeStyle=arr[z].color;
+context.stroke();
+}
+}
+if(arr[i].size<0.3){
+arr.splice(i,1);
+}
+}
+}
+load_change();
+
+
+function animation(){
+	// context.fillStyle='rgba(0,0,0,0.02)';
+
+	// context.fillRect(0,0,1200,600);
+	context.clearRect(0,0,canvas.offsetHeight,canvas.offsetHeight);
+
+	load_change();
+
+requestAnimationFrame(animation);
 }
 
-    right.classList[check1]('notopen')
+animation();
 
-}
-ticlose.onclick=check;
 
-function get_id_main_check(){
-    let main_check=document.querySelector('img[class^="main_check"]');
-    let class_id=main_check.getAttribute('class');
- return class_id.match(/[0-9]+$/).join('');
-}
-function set_id_main_check(a){
-    let main_check=document.querySelector('img[class^="main_check"]');
-    main_check.setAttribute('class','main_check'+a);
- let div_next=document.querySelector('.grid_container>.item_'+a);
-  let src_img=div_next.querySelector('img').getAttribute('src');
-  main_check.setAttribute('src',src_img);
-}
 
-right.onclick=function(){
-    let id_hien_tai=get_id_main_check();
-    console.log(id_hien_tai);
-    
-    id_hien_tai=Number(id_hien_tai);
-if(id_hien_tai!=8){
-    set_id_main_check(id_hien_tai+1);
 
-}
-    check_next(document.querySelector('img[class^="main_check"]'));
-}
-left.onclick=function(){
-    let id_hien_tai=get_id_main_check();
-    id_hien_tai=Number(id_hien_tai);
-if(id_hien_tai!=1){
-    set_id_main_check(id_hien_tai-1);
-
-}
-    check_next(document.querySelector('img[class^="main_check"]'));
-
-}
-let grid_container_div=document.querySelectorAll('.grid_container>div');
-for(let i of grid_container_div){
-    i.onclick=function(e){
-
-let main_check=document.querySelector('img[class^="main_check"]');
-let src_i=e.target.getAttribute('src');
-let div_id=change_arr_to_string_number(i.classList);
-main_check.setAttribute('src',src_i);
-main_check.setAttribute('class','main_check'+div_id);
-
-check();
-check_next(i);
-    }
-}
+// line61:trỏ đến phần tử (sau khi vẽ xong và mới nhất)
+// + check các phần tử mới hơn vừa thêm vào mảng
+//  tại thời điểm hiện tại
+// line62:  nếu 2 phần tử  có
+//  x -x2 mà khoảng cách không quá giới hạn thì nối
+//  line63:  nếu 2 phần tử  có
+//  y -y2 mà khoảng cách không quá giới hạn thì nối
+// và bởi vì cả hai luôn vuông góc với nhau như x với y
+//  line64:
