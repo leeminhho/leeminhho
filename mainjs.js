@@ -7,11 +7,11 @@ let pointer={
 	y:70
 }
 canvas.width=window.innerWidth;
-canvas.height=window.innerWidth;
+canvas.height=window.innerHeight;
 window.onresize=function(){
 	console.log(window.innerWidth)
 canvas.width=window.innerWidth;
-canvas.height=window.innerWidth;
+canvas.height=window.innerHeight;
 
 }
 canvas.onmousemove=(e)=>{
