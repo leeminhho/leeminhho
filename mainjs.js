@@ -2,9 +2,12 @@
 	let $$=document.querySelectorAll.bind(document);
 
 let canvas=$('canvas');
-// localStorage.cup1=0;
-// localStorage.cup2=0;
-// localStorage.cup3=0;
+if(localStorage.cup1==undefined){
+	localStorage.cup1=0;
+localStorage.cup2=0;
+localStorage.cup3=0;
+}
+
 
 console.log(localStorage)
 
