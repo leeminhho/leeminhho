@@ -1,124 +1,249 @@
-let select=document.querySelector.bind(document);
-let canvas=select('.main_canvas');
-let context=canvas.getContext('2d');
-let h1=select('h1');
-let pointer={
-	x:50,
-	y:70
+	let $=document.querySelector.bind(document);
+	let $$=document.querySelectorAll.bind(document);
+
+let canvas=$('canvas');
+// localStorage.cup1=0;
+// localStorage.cup2=0;
+// localStorage.cup3=0;
+
+console.log(localStorage)
+
+let ctx=canvas.getContext('2d');
+let a=[];
+let play=$('.play');
+let number=$('.number');
+let point=0;
+let menu_dead_span=$$('.menu_dead span');
+let menu_dead=$('.menu_dead');
+canvas.width=window.innerWidth;
+	canvas.height=window.innerHeight;
+let background=new Image()
+let nhan_vat=new Image();
+let bird_up=new Image();
+let bird_up_lite=new Image();
+let bird_down=new Image();
+let ong_tren=new Image();
+let ong_duoi=new Image();
+let bird_down_lite=new Image();
+background.src="assets/img/nenchinh.png"
+nhan_vat.src="assets/img/bird.png"
+ong_tren.src="assets/img/ongtren.png"
+ong_duoi.src="assets/img/ongduoi.png"
+
+console.log(localStorage)
+function check_point(){
+	let flag=1;
+for(let i=1;i<=3;i++){
+if(flag&&point>parseInt(localStorage[`cup${i}`])){
+menu_dead_span[i-1].innerText=point;
+localStorage[`cup${i}`]=point;
+flag=0;
 }
-canvas.width=window.innerWidth;
-canvas.height=window.innerWidth;
-window.onresize=function(){
-	console.log(window.innerWidth)
-canvas.width=window.innerWidth;
-canvas.height=window.innerWidth;
+else{
+menu_dead_span[i-1].innerText=localStorage[`cup${i}`];
+	 
+}
+}
+}
+play.onclick=function(e){
+
+	stop=0;
+this.style.animationName='close';
+}
+window.onresize=()=>{
+	canvas.width=window.innerWidth;
+	canvas.height=window.innerHeight;
 
 }
-canvas.onmousemove=(e)=>{
-	pointer.x=e.offsetX;
-	pointer.y=e.offsetY;
-	for(let i=0;i<1;i++){
-		arr.push(new an);
-	}
-}
-// function draw
+let start_distance=canvas.width;
+let start_distance2=0;
+let count_a=0;
+let speed=1;
+ctx.fillStyle='white';
+  	ctx.fillRect(0,0,canvas.width,canvas.height);
 
-class an{
+class cot{
 	constructor(){
-		//init
-  this.x=pointer.x;
-  this.y=pointer.y;
-  this.range_color=1;
-this.color=``;
+		this.color=`hsl(${Math.floor(Math.random()*(360-0+1))},100%,50%)`;
+		this.magnitude=70/2;//
+this.height_top=Math.floor(Math.random()*(canvas.height/2-100+1))+100-this.magnitude;
 
-  this.change=Math.random()*3 - 1.5;
-  this.change_2=Math.random()*3 - 1.5;
-  this.size=Math.random()*(20 - 5 + 1) + 5;
+this.height_bottom=canvas.height-this.height_top-this.magnitude*1.5;
+  this.y_top=0;
+  this.y_bottom=Math.floor(this.height_top+Math.random()*(this.magnitude*8 -this.magnitude*4+1)+this.magnitude*4),
+	this.size=50;
+	 this.spacing=130;
+this.x=this.size+count_a*this.spacing;
 
 	}
-   update(){
-this.range_color+=3;
-if(this.size>=0.3){
-	this.size-=0.1;
+  draw(){
+  	ctx.beginPath();
+  	
+  	ctx.drawImage(ong_tren,start_distance+this.x,this.y_top,this.size,this.height_top);
+  //bottom
+  ctx.beginPath();
+  	
+  	ctx.drawImage(ong_duoi,start_distance+this.x,this.y_bottom,this.size,this.height_bottom);
+  
+  }
+  clear(){
+  	ctx.clearRect(start_distance2+this.x-1,this.y_top,this.size-2,this.height_top);
+  	ctx.clearRect(start_distance2+this.x-1,this.y_bottom,this.size-2,this.height_bottom);
+
+  }
 }
-   	if(this.x>=canvas.width||this.x<=0){
-   		this.change= -(this.change);
-   	
-   	}
+function init(){
+	for(let i=0;i<15;i++){
 
-   	
-   	this.x+=this.change;
-
-   	
-	if(this.y>=canvas.height||this.y<=0){
-		this.change_2= -(this.change_2);
-   	}
-
-  this.y+=this.change_2;
-
-   	
-   }
-	draw(){
-this.color=`hsl(${this.range_color},100%,70%)`;
-context.beginPath();
-context.fillStyle=this.color;
-context.lineWidth=this.size/8;
-context.arc(this.x,this.y,this.size,0,2*Math.PI);
-context.fill();
+		a.push(new cot);
+   a[i].draw();
+		count_a++;
 
 	}
 }
-let arr=[];
 
-function load_change(){
-for(let i in arr){
-	arr[i].update();
-arr[i].draw();
-
-
-
-for(let z=parseInt(i)+1;z<arr.length-1;z++){
-		let cgvX= arr[i].x -arr[z].x;
-	let cgvY=arr[i].y-arr[z].y;
-	let distance=Math.sqrt(cgvX*cgvX+cgvY*cgvY);
-if(distance<100){
-	context.beginPath();
-	context.moveTo(arr[z].x,arr[z].y);
-	context.lineTo(arr[i].x,arr[i].y);
-	context.strokeStyle=arr[z].color;
-context.stroke();
-}
-}
-if(arr[i].size<0.3){
-arr.splice(i,1);
-}
-}
-}
-load_change();
-
-
+init();
+let stop=0;
+setTimeout(()=>stop=1,100);
 function animation(){
-	// context.fillStyle='rgba(0,0,0,0.02)';
+	if(stop!=1){
 
-	// context.fillRect(0,0,1200,600);
-	context.clearRect(0,0,canvas.offsetHeight,canvas.offsetHeight);
-
-	load_change();
-
-requestAnimationFrame(animation);
+function add(){
+	a.push(new cot);
+a[a.length-1].draw();
+	count_a++;
+}
+function ve(){
+ctx.drawImage(background,0,0,canvas.width,canvas.height+3);
+for(let i in a){
+	a[i].clear();
+	a[i].draw();
 }
 
+if(start_distance+a[0].x<=-50){
+   a[0].clear();
+a.splice(0,1);
+add();
+	}
+}
+
+if(stop){}
+	else{
+start_distance2=start_distance-0;
+start_distance-=speed*2 ;
+ve();
+	}
+
+	}
+window.requestAnimationFrame(animation);
+
+}
 animation();
 
 
 
+let bird={
+	x:canvas.width/5,
+	y:canvas.height/2,
+	max_up:50,
+	up:-1,
+	down:1,
+	fast_up:2,
+	rotate_up:1
+}
+function draw_bird_first(){
+	ctx.drawImage(nhan_vat,bird.x,bird.y);
+}
+function draw_bird_up(){
+	ctx.drawImage(nhan_vat,bird.x,bird.y-bird.fast_up);
+bird.down=1;
+bird.up=bird.up-5-bird.fast_up;
+bird.y=bird.y-5;
+bird.fast_up-=0.3;
+	if(-bird.up>bird.max_up){
+	
+		flag=2;
+	bird.up=-1;
+	bird.fast_up=2;
+	bird.max_up=40
+ }
 
-// line61:trỏ đến phần tử (sau khi vẽ xong và mới nhất)
-// + check các phần tử mới hơn vừa thêm vào mảng
-//  tại thời điểm hiện tại
-// line62:  nếu 2 phần tử  có
-//  x -x2 mà khoảng cách không quá giới hạn thì nối
-//  line63:  nếu 2 phần tử  có
-//  y -y2 mà khoảng cách không quá giới hạn thì nối
-// và bởi vì cả hai luôn vuông góc với nhau như x với y
-//  line64:
+}
+// 1s sau thi down
+function draw_bird_down(){
+	ctx.drawImage(nhan_vat,bird.x,bird.y);
+
+bird.y+=bird.down;
+bird.down+=0.2;
+if(bird.down>=7){
+
+	bird.max_up=80;
+	bird.fast_up=3;
+}
+}
+let flag =0;
+function check_false(){
+
+	for(let i=0;i<=3;i++){		
+		if((bird.x+38>=start_distance+a[i].x)&&((bird.x+38-(a[i].x+a[i].size+start_distance))<40 )){		    
+	
+
+		
+		 if((bird.y<=a[i].height_top)||(bird.y+21>=a[i].y_bottom)){
+            play.style.animationName='start';
+             stop=1;
+menu_dead.style.animationName='menu_st';
+check_point();
+play.onclick=function(e){
+if(stop==1){
+location.reload(true)
+
+}	
+this.style.animationName='close';
+menu_dead.style.animationName='';
+
+}
+			}
+			 else if((bird.x)>=(start_distance+a[i].x+a[i].size)){
+			number.innerText=++point;
+			}
+		}
+	}
+}
+let co=0;
+function animation_bird(){
+if(flag==0&&co<=7){
+draw_bird_first()
+co++;
+	}
+
+else if(stop!=1){
+if(flag==1){
+	draw_bird_up()
+}
+else if(flag==2){
+
+draw_bird_down()
+}  
+check_false();
+
+}
+
+
+
+requestAnimationFrame(animation_bird);
+
+
+}
+	animation_bird();
+
+document.onkeydown=function(e){
+if(e.code==='Space'){
+
+	flag =1;
+}
+}
+document.onclick=function(e){
+e.preventDefault()
+	flag=1;
+}
