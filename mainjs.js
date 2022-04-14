@@ -8,6 +8,18 @@ localStorage.cup2=0;
 localStorage.cup3=0;
 }
 
+let arr_img_up=[];
+let arr_img_down=[];
+
+
+for(let i=0;i<5;i++){
+arr_img_up.push(new Image);
+arr_img_up[i].src=`assets/img/change_up/${i+1}.png`
+arr_img_down.push(new Image);
+arr_img_down[i].src=`assets/img/change_up/${i+1}.png`
+}
+arr_img_down.push(new Image);
+arr_img_down[arr_img_down.length-1].src=`assets/img/change_down/6.png`
 
 let ctx=canvas.getContext('2d');
 let a=[];
@@ -151,12 +163,37 @@ let bird={
 	fast_up:2,
 	rotate_up:1
 }
-function draw_bird_first(){
-	ctx.drawImage(nhan_vat,bird.x,bird.y);
+let i_up_img=0;
+let i_up_img_delay=15;
+let i_down_img=0;
+// arr_img_down[] co 6 phan tu
+// i_down_img<=6
+function draw_bird_first(a=0){
+	let tmp;
+	if(flag==0){tmp=nhan_vat}
+ else if(flag==1||i_up_img_delay>1){
+
+tmp=arr_img_up[i_up_img]	
+	i_up_img<4?i_up_img++:i_up_img_delay--;
+
 }
+else if(i_up_img>0){
+	tmp=arr_img_up[i_up_img]
+i_up_img--;
+
+}
+else{
+
+tmp=arr_img_down[i_down_img];
+i_down_img<5?i_down_img++:'';
+
+}
+	ctx.drawImage(tmp,bird.x,bird.y-a);
+}
+
 function draw_bird_up(){
 
-	ctx.drawImage(nhan_vat,bird.x,bird.y-bird.fast_up);
+	draw_bird_first(bird.fast_up)
 bird.down=1;
 bird.up=bird.up-5-bird.fast_up;
 bird.y=bird.y-5;
@@ -173,7 +210,7 @@ bird.fast_up-=0.3;
 }
 // 1s sau thi down
 function draw_bird_down(){
-	ctx.drawImage(nhan_vat,bird.x,bird.y);
+draw_bird_first();
 
 bird.y+=bird.down;
 bird.down+=0.17;
@@ -249,11 +286,12 @@ requestAnimationFrame(animation_bird);
 
 document.onkeydown=function(e){
 if(e.code==='Space'){
-
+i_up_img_delay=15;
 	flag =1;
 }
 }
 document.onclick=function(e){
 e.preventDefault()
+i_up_img_delay=15;
 	flag=1;
 }
