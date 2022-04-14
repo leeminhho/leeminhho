@@ -32,7 +32,7 @@ nhan_vat.src="assets/img/bird.png"
 ong_tren.src="assets/img/ongtren.png"
 ong_duoi.src="assets/img/ongduoi.png"
 
-console.log(localStorage)
+console.log(canvas.height)
 function check_point(){
 	let flag=1;
 for(let i=1;i<=3;i++){
@@ -106,7 +106,7 @@ function init(){
 
 init();
 let stop=0;
-setTimeout(()=>stop=1,20);
+setTimeout(()=>stop=1,30);
 function animation(){
 	if(stop!=1){
 
@@ -157,13 +157,14 @@ function draw_bird_first(){
 	ctx.drawImage(nhan_vat,bird.x,bird.y);
 }
 function draw_bird_up(){
+
 	ctx.drawImage(nhan_vat,bird.x,bird.y-bird.fast_up);
 bird.down=1;
 bird.up=bird.up-5-bird.fast_up;
 bird.y=bird.y-5;
 bird.fast_up-=0.3;
 
-	if(-bird.up>bird.max_up){
+	if((-bird.up>bird.max_up)||(bird.y<=0)){
 	
 		flag=2;
 	bird.up=-1;
@@ -178,22 +179,18 @@ function draw_bird_down(){
 
 bird.y+=bird.down;
 bird.down+=0.17;
-if(bird.down>=7){
+if(bird.down>=5){
 
 	bird.max_up=80;
 	bird.fast_up=3;
 }
+if(bird.y+20>=canvas.height){
+		handel_dead()
+	}
 }
-let flag =0;
-function check_false(){
 
-	for(let i=0;i<=3;i++){		
-		if((bird.x+38>=start_distance+a[i].x)&&((bird.x+38-(a[i].x+a[i].size+start_distance))<40 )){		    
-	
-
-		
-		 if((bird.y+5<=a[i].height_top)||(bird.y+21>=a[i].y_bottom)){
-            play.style.animationName='start';
+function handel_dead(){
+	     play.style.animationName='start';
              stop=1;
 menu_dead.style.animationName='menu_st';
 check_point();
@@ -206,6 +203,18 @@ this.style.animationName='close';
 menu_dead.style.animationName='';
 
 }
+}
+
+let flag =0;
+function check_false(){
+
+	for(let i=0;i<=3;i++){
+		if((bird.x+38>=start_distance+a[i].x)&&((bird.x+38-(a[i].x+a[i].size+start_distance))<40 )){		    
+	
+
+		
+		 if((bird.y+5<=a[i].height_top)||(bird.y+21>=a[i].y_bottom)){
+       handel_dead();
 			}
 			 else if((bird.x)>=(start_distance+a[i].x+a[i].size)){
 			number.innerText=++point;
