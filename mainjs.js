@@ -104,7 +104,7 @@ function init(){
 
 init();
 let stop=0;
-setTimeout(()=>stop=1,30);
+setTimeout(()=>stop=1,90);
 function animation(){
 	if(stop!=1){
 
