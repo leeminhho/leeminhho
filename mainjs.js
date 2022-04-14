@@ -177,7 +177,7 @@ function draw_bird_down(){
 	ctx.drawImage(nhan_vat,bird.x,bird.y);
 
 bird.y+=bird.down;
-bird.down+=0.13;
+bird.down+=0.17;
 if(bird.down>=7){
 
 	bird.max_up=80;
