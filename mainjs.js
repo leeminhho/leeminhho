@@ -8,7 +8,6 @@ localStorage.cup2=0;
 localStorage.cup3=0;
 }
 
-
 console.log(localStorage)
 
 let ctx=canvas.getContext('2d');
@@ -58,7 +57,7 @@ window.onresize=()=>{
 	canvas.height=window.innerHeight;
 
 }
-let start_distance=canvas.width;
+let start_distance=400;
 let start_distance2=0;
 let count_a=0;
 let speed=1;
@@ -74,8 +73,8 @@ this.height_top=Math.floor(Math.random()*(canvas.height/2-100+1))+100-this.magni
 this.height_bottom=canvas.height-this.height_top-this.magnitude*1.5;
   this.y_top=0;
   this.y_bottom=Math.floor(this.height_top+Math.random()*(this.magnitude*8 -this.magnitude*4+1)+this.magnitude*4),
-	this.size=50;
-	 this.spacing=130;
+	this.size=70;
+	 this.spacing=170;
 this.x=this.size+count_a*this.spacing;
 
 	}
@@ -123,7 +122,7 @@ for(let i in a){
 	a[i].draw();
 }
 
-if(start_distance+a[0].x<=-50){
+if(start_distance+a[0].x<=-a[0].spacing){
    a[0].clear();
 a.splice(0,1);
 add();
@@ -163,12 +162,13 @@ bird.down=1;
 bird.up=bird.up-5-bird.fast_up;
 bird.y=bird.y-5;
 bird.fast_up-=0.3;
+
 	if(-bird.up>bird.max_up){
 	
 		flag=2;
 	bird.up=-1;
 	bird.fast_up=2;
-	bird.max_up=40
+	bird.max_up=50
  }
 
 }
@@ -177,7 +177,7 @@ function draw_bird_down(){
 	ctx.drawImage(nhan_vat,bird.x,bird.y);
 
 bird.y+=bird.down;
-bird.down+=0.2;
+bird.down+=0.13;
 if(bird.down>=7){
 
 	bird.max_up=80;
@@ -192,7 +192,7 @@ function check_false(){
 	
 
 		
-		 if((bird.y<=a[i].height_top)||(bird.y+21>=a[i].y_bottom)){
+		 if((bird.y+5<=a[i].height_top)||(bird.y+21>=a[i].y_bottom)){
             play.style.animationName='start';
              stop=1;
 menu_dead.style.animationName='menu_st';
