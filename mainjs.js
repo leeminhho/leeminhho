@@ -244,14 +244,15 @@ let flag =0;
 function check_false(){
 
 	for(let i=0;i<=3;i++){
-		if((bird.x+38>=start_distance+a[i].x)&&((bird.x+38-(a[i].x+a[i].size+start_distance))<40 )){		    
+		if((bird.x+38>=start_distance+a[i].x)&&(((a[i].x+a[i].size+start_distance))-bird.x>=10)){		    
 	
 
 		
 		 if((bird.y+5<=a[i].height_top)||(bird.y+21>=a[i].y_bottom)){
        handel_dead();
 			}
-			 else if((bird.x)>=(start_distance+a[i].x+a[i].size)){
+			 else if((bird.x)-(start_distance+a[i].x+a[i].size)>=-13){
+			 	//khi x hon cot 38px(tuong doi) thi laptuc ca truong trinh se khong thuc hien 
 			number.innerText=++point;
 			}
 		}
