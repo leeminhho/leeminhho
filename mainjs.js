@@ -8,7 +8,6 @@ localStorage.cup2=0;
 localStorage.cup3=0;
 }
 
-console.log(localStorage)
 
 let ctx=canvas.getContext('2d');
 let a=[];
@@ -32,7 +31,6 @@ nhan_vat.src="assets/img/bird.png"
 ong_tren.src="assets/img/ongtren.png"
 ong_duoi.src="assets/img/ongduoi.png"
 
-console.log(canvas.height)
 function check_point(){
 	let flag=1;
 for(let i=1;i<=3;i++){
