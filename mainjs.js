@@ -57,7 +57,7 @@ window.onresize=()=>{
 	canvas.height=window.innerHeight;
 
 }
-let start_distance=400;
+let start_distance=canvas.width;
 let start_distance2=0;
 let count_a=0;
 let speed=1;
