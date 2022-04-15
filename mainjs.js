@@ -251,7 +251,7 @@ function check_false(){
 		 if((bird.y+5<=a[i].height_top)||(bird.y+21>=a[i].y_bottom)){
        handel_dead();
 			}
-			 else if((bird.x)-(start_distance+a[i].x+a[i].size)>=-7){
+			 else if((start_distance+a[i].x+a[i].size)-(bird.x)<=7){
 			 	//khi x hon cot 38px(tuong doi) thi laptuc ca truong trinh se khong thuc hien 
 			number.innerText=++point;
 			}
